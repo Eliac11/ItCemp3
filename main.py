@@ -1,6 +1,6 @@
 import sys
 import os
-
+import threading
 from moduleReplicateApi import ReplicateInterface, paint_style
 
 from PyQt5 import *
@@ -17,14 +17,14 @@ class Window(QMainWindow):
         self.resize(width, height)
 
         generate = QPushButton("Generate", self)
-        generate.move(round(width*0.5-100),round(height*0.5-100))
-        generate.resize(200, 100)
+        generate.move(round(width*0.55-round(width*0.1)),round(height*0.5-round(height*0.1)))
+        generate.resize(round(width*0.1), round(height*0.1))
         generate.clicked.connect(self.save_paint)
         generate.setStyleSheet("background-color: #5ea668; color: #ffffff")
 
         clear = QPushButton("Clear", self)
-        clear.move(round(width*0.5-100),round(height*0.5-250))
-        clear.resize(200, 100)
+        clear.move(round(width*0.55-round(width*0.1)),round(height*0.5+round(height*0.1*0.5)))
+        clear.resize(round(width*0.1), round(height*0.1))
         clear.clicked.connect(self.clear_paint)
         clear.setStyleSheet("background-color: #5ea668; color: #ffffff")
 
@@ -32,25 +32,25 @@ class Window(QMainWindow):
         for i in paint_style.keys():
             self.combobox.addItem(i)
 
-        self.combobox.move(round(width*0.5-100), round(height*0.5+50))
-        self.combobox.resize(200, 50)
+        self.combobox.move(round(width*0.55-round(width*0.15)),round(height- height*0.97))
+        self.combobox.resize(round(width*0.2), round(height*0.05))
         self.combobox.setStyleSheet("background-color: #5ea668; color: #ffffff")
 
         self.combobox.currentTextChanged.connect(self.text_changed)
 
-        pixmap = QPixmap(768,1024)
+        pixmap = QPixmap(QSize(round(width*0.35), round(height*0.8)))
         pixmap.fill(Qt.white)
         self.label_gen = QLabel(self)
         self.label_gen.setPixmap(pixmap)
-        self.label_gen.move(round(width*0.57),round(height*0.1))
-        self.label_gen.resize(768,1024)
+        self.label_gen.move(round(width*0.58),round(height*0.1))
+        self.label_gen.resize(QSize(round(width*0.35), round(height*0.8)))
 
-        self.canvas = QPixmap(QSize(768, 1024))
+        self.canvas = QPixmap(QSize(round(width*0.35), round(height*0.8)))
         self.canvas.fill(Qt.white)
         self.label_paint = QLabel(self)
-        self.label_paint.move(round(width*0.1),round(height*0.1))
+        self.label_paint.move(round(width*0.07),round(height*0.1))
         self.label_paint.setPixmap(self.canvas)
-        self.label_paint.resize(768,1024)
+        self.label_paint.resize(round(width*0.35),round(height*0.8))
 
         self.last_x, self.last_y = None, None
 
@@ -59,7 +59,7 @@ class Window(QMainWindow):
         
 
     def mouseMoveEvent(self, e):
-        mouse_x = e.x()-round(width*0.1)
+        mouse_x = e.x()-round(width*0.08)
         mouse_y = e.y()-round(height*0.1)
         if self.last_x is None:
             self.last_x = mouse_x
@@ -68,7 +68,7 @@ class Window(QMainWindow):
             
         painter = QPainter(self.label_paint.pixmap())
         p = painter.pen()
-        p.setWidth(16)
+        p.setWidth(12)
         painter.setPen(p)
         painter.drawLine(self.last_x, self.last_y, mouse_x, mouse_y)
         painter.drawPoint
@@ -86,7 +86,7 @@ class Window(QMainWindow):
         self.label_paint.move(0,0)
         self.render(self.canvas)
         self.canvas.save("temp.png", "PNG")
-        self.label_paint.move(round(width*0.1),round(height*0.1))
+        self.label_paint.move(round(width*0.08),round(height*0.1))
         
         self.genImage()
 
@@ -94,14 +94,14 @@ class Window(QMainWindow):
         gen = ReplicateInterface("r8_5DHHGh72D2WeQjtERBDmyc8mwt8iiv339O4qL")
         newimg = gen.imageInpaiting(paint_style[self.now_changetstyle], "temp.png")
         gen_paint = QPixmap(newimg)
-        gen_paint = gen_paint.scaled(768,1024)
+        gen_paint = gen_paint.scaled(round(width*0.35),round(height*0.8))
         self.label_gen.setPixmap(gen_paint)
 
     def clear_paint(self):
         painter = QPainter(self.label_paint.pixmap())
         p = painter.pen()
         p.setColor(Qt.white)
-        painter.fillRect(0,0,768,1024, Qt.white)
+        painter.fillRect(0,0,round(width*0.35),round(height*0.8), Qt.white)
         painter.end()
         self.update()
 
@@ -113,7 +113,8 @@ desktop = QApplication.desktop()
 
 width = round(desktop.width()*0.6)
 height = round(desktop.height()*0.6)
-
+# width = round(1920*0.6)
+# height = round(1080*0.6)
 wnd = Window(width, height)
 
 wnd.show()
