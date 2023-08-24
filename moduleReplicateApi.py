@@ -42,7 +42,7 @@ paint_style = {"Realism": "forest, Finland, realism, lake",
                    "Kashtanov": "Painting in the style of the artist Kashtanov, forest, Finland, watercolour, lake, sadness, very faded color",
                    "Ivanenko" : "Graphics paint, black pencil paint, big strokes, sharp lines",
                    "Anime" : "Russian forest, anime",
-                   "Embroidery" : "embroidery, red thread, white linen, white-red combination, geomitrical elements, minimalistic flower"}
+                   "Embroidery" : "only Karelian embroidery, 2d image, red thread, white linen, geomitrical elements"}
 
 if __name__ == "__main__":
     ReplicateInterface("r8_DCtHIoSpvwN9qJfGRVnfvRgy0xsOhy92BrK04").imageInpaiting(str(paint_style[style]), str(image))

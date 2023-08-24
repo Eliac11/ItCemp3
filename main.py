@@ -20,11 +20,13 @@ class Window(QMainWindow):
         generate.move(round(width*0.5-100),round(height*0.5-100))
         generate.resize(200, 100)
         generate.clicked.connect(self.save_paint)
+        generate.setStyleSheet("background-color: #5ea668; color: #ffffff")
 
         clear = QPushButton("Clear", self)
         clear.move(round(width*0.5-100),round(height*0.5-250))
         clear.resize(200, 100)
         clear.clicked.connect(self.clear_paint)
+        clear.setStyleSheet("background-color: #5ea668; color: #ffffff")
 
         self.combobox = QComboBox(self)
         for i in paint_style.keys():
@@ -32,11 +34,12 @@ class Window(QMainWindow):
 
         self.combobox.move(round(width*0.5-100), round(height*0.5+50))
         self.combobox.resize(200, 50)
+        self.combobox.setStyleSheet("background-color: #5ea668; color: #ffffff")
 
         self.combobox.currentTextChanged.connect(self.text_changed)
 
         pixmap = QPixmap(768,1024)
-        pixmap.fill(Qt.red)
+        pixmap.fill(Qt.white)
         self.label_gen = QLabel(self)
         self.label_gen.setPixmap(pixmap)
         self.label_gen.move(round(width*0.57),round(height*0.1))
@@ -52,6 +55,8 @@ class Window(QMainWindow):
         self.last_x, self.last_y = None, None
 
         self.now_changetstyle = "Realism"
+        
+        
 
     def mouseMoveEvent(self, e):
         mouse_x = e.x()-round(width*0.1)
