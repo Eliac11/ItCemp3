@@ -22,8 +22,9 @@ def start(message):
         items += [types.KeyboardButton(i)]
 
     markup.add(*items)
-
-    bot.reply_to(message, "Привет отправь мне фотку ", reply_markup=markup)
+    with open("holst.png", 'rb') as f:
+        bot.send_photo(message.chat.id, f)
+    bot.reply_to(message, "Привет, вот твой холст. Выбери стиль и отправь свой набросок", reply_markup=markup)
 
 @bot.message_handler(content_types=['photo'])
 def save_photo(message):
@@ -35,7 +36,7 @@ def save_photo(message):
     downloaded_file = bot.download_file(file_info.file_path)
     with open(file_path, 'wb') as f:
         f.write(downloaded_file)
-    bot.reply_to(message, "Фотография принята!")
+    bot.reply_to(message, "Фотография принята! Подождите 10 сек")
 
     style = "Realism"
     if message.chat.id in USER_CHOISEN:
@@ -58,7 +59,7 @@ def handle_choice(message):
 
     USER_CHOISEN[user_id] = choice
 
-    response = f"Вы выбрали prompt {choice}."
+    response = f"Вы выбрали prompt: {choice}."
     bot.reply_to(message, response)
 
 
