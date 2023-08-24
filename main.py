@@ -1,7 +1,7 @@
 import sys
 import os
 
-from moduleReplicateApi import ReplicateInterface
+from moduleReplicateApi import ReplicateInterface, paint_style
 
 from PyQt5 import *
 from PyQt5.QtGui import *
@@ -26,21 +26,14 @@ class Window(QMainWindow):
         clear.resize(200, 100)
         clear.clicked.connect(self.clear_paint)
 
-        combobox = QComboBox(self)
-        combobox.addItem("Realism")
-        combobox.addItem("Cubism")
-        combobox.addItem("Oil")
-        combobox.addItem("Watercolor")
-        combobox.addItem("Color pencil")
-        combobox.addItem("Black pencil")
-        combobox.addItem("Charcoal")
-        combobox.addItem("Kashtanov")
-        combobox.addItem("Ivanenko")
-        combobox.addItem("Embroidery")
-        combobox.addItem("Anime")
+        self.combobox = QComboBox(self)
+        for i in paint_style.keys():
+            self.combobox.addItem(i)
 
-        combobox.move(round(width*0.5-100), round(height*0.5+50))
-        combobox.resize(200, 50)
+        self.combobox.move(round(width*0.5-100), round(height*0.5+50))
+        self.combobox.resize(200, 50)
+
+        self.combobox.currentTextChanged.connect(self.text_changed)
 
         pixmap = QPixmap(768,1024)
         pixmap.fill(Qt.red)
@@ -57,6 +50,8 @@ class Window(QMainWindow):
         self.label_paint.resize(768,1024)
 
         self.last_x, self.last_y = None, None
+
+        self.now_changetstyle = "Realism"
 
     def mouseMoveEvent(self, e):
         mouse_x = e.x()-round(width*0.1)
@@ -91,8 +86,8 @@ class Window(QMainWindow):
         self.genImage()
 
     def genImage(self):
-        gen = ReplicateInterface("r8_7LQDYseC2kXuZYlhqpIEp3Kt7V4UXLH3M0Lxp")
-        newimg = gen.imageInpaiting("realistic, forest, Russia", "temp.png")
+        gen = ReplicateInterface("r8_5DHHGh72D2WeQjtERBDmyc8mwt8iiv339O4qL")
+        newimg = gen.imageInpaiting(paint_style[self.now_changetstyle], "temp.png")
         gen_paint = QPixmap(newimg)
         gen_paint = gen_paint.scaled(768,1024)
         self.label_gen.setPixmap(gen_paint)
@@ -105,13 +100,15 @@ class Window(QMainWindow):
         painter.end()
         self.update()
 
+    def text_changed(self,s):
+        self.now_changetstyle = s
+
 app = QApplication(sys.argv)
 desktop = QApplication.desktop()
 
 width = round(desktop.width()*0.6)
 height = round(desktop.height()*0.6)
 
-print(width, height)
 wnd = Window(width, height)
 
 wnd.show()

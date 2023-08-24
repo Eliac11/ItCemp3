@@ -32,8 +32,7 @@ class ReplicateInterface:
                 return "ok"
         return "error"
 
-def Generate(style, image):
-    paint_style = {"Realism": "forest, Finland, realism, lake",
+paint_style = {"Realism": "forest, Finland, realism, lake",
                    "Cubism": "forest, Finland, abstraction, cubism, lake",
                    "Watercolour": "forest, Finland, watercolour, old version, lake",
                    "Oil": "forest, Finland, oil painting, large strokes, old version, lake",
@@ -42,10 +41,8 @@ def Generate(style, image):
                    "Black pencil": "forest, Finland, black pencil paint, old version, lake",
                    "Kashtanov": "Painting in the style of the artist Kashtanov, forest, Finland, watercolour, lake, sadness, very faded color",
                    "Ivanenko" : "Graphics paint, black pencil paint, big strokes, sharp lines",
-                   "anime" : "Russian forest, anime",
-                   "embroidery" : "Russian embroidery"}
-
-    ReplicateInterface("r8_DCtHIoSpvwN9qJfGRVnfvRgy0xsOhy92BrK04").imageInpaiting(str(paint_style[style]), str(image))
+                   "Anime" : "Russian forest, anime",
+                   "Embroidery" : "embroidery, red thread, white linen, white-red combination, geomitrical elements, minimalistic flower"}
 
 if __name__ == "__main__":
-    Generate("embroidery", "embroidery.png")
+    ReplicateInterface("r8_DCtHIoSpvwN9qJfGRVnfvRgy0xsOhy92BrK04").imageInpaiting(str(paint_style[style]), str(image))
