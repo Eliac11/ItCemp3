@@ -59,7 +59,7 @@ class Window(QMainWindow):
         
 
     def mouseMoveEvent(self, e):
-        mouse_x = e.x()-round(width*0.08)
+        mouse_x = e.x()-round(width*0.07)
         mouse_y = e.y()-round(height*0.1)
         if self.last_x is None:
             self.last_x = mouse_x
@@ -86,7 +86,7 @@ class Window(QMainWindow):
         self.label_paint.move(0,0)
         self.render(self.canvas)
         self.canvas.save("temp.png", "PNG")
-        self.label_paint.move(round(width*0.08),round(height*0.1))
+        self.label_paint.move(round(width*0.07),round(height*0.1))
         
         self.genImage()
 
