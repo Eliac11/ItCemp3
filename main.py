@@ -91,7 +91,7 @@ class Window(QMainWindow):
         self.genImage()
 
     def genImage(self):
-        gen = ReplicateInterface("r8_5DHHGh72D2WeQjtERBDmyc8mwt8iiv339O4qL")
+        gen = ReplicateInterface("r8_C30jBlJbQmFsWrEruydQqLYQOE93K7T3MU9Xf")
         newimg = gen.imageInpaiting(paint_style[self.now_changetstyle], "temp.png")
         gen_paint = QPixmap(newimg)
         gen_paint = gen_paint.scaled(round(width*0.35),round(height*0.8))

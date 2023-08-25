@@ -48,7 +48,7 @@ def save_photo(message):
     with open(img + ".png", 'rb') as f:
         bot.send_photo(message.chat.id, f)
 def genimage(prompt, imgpath):
-    imgname = ReplicateInterface("r8_5DHHGh72D2WeQjtERBDmyc8mwt8iiv339O4qL").imageInpaiting(prompt,imgpath)
+    imgname = ReplicateInterface("r8_C30jBlJbQmFsWrEruydQqLYQOE93K7T3MU9Xf").imageInpaiting(prompt,imgpath)
     return imgname
 
 
